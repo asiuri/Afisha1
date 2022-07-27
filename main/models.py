@@ -57,3 +57,5 @@ class Review(models.Model):
         return f"{self.author}-{self.movie}"
 
 
+    def __init__(self):
+        return self.stars
