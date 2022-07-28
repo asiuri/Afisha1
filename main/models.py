@@ -44,18 +44,18 @@ class Movie(models.Model):
                                  null=True,
                                  related_name='movies')
 
-    # @property
-    # def rating(self):
-    #     total_amount = self.reviews.all().count()
-    #     if total_amount == 0:
-    #         return 0
-    #     sum_ = 0
-    #     for i in self.reviews.all():
-    #         sum_ += i.stars
-    #     return sum_ / total_amount
-    #
-    # def __str__(self):
-    #     return self.title
+     @property
+     def rating(self):
+         total_amount = self.reviews.all().count()
+         if total_amount == 0:
+             return 0
+        sum_ = 0
+        for i in self.reviews.all():
+             sum_ += i.stars
+        return sum_ / total_amount
+    
+     def __str__(self):
+        return self.title
 
 class Review(models.Model):
     class Meta:
