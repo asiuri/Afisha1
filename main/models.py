@@ -3,8 +3,17 @@ from django.db import models
 
 # Create your models here.
 
-class Director(models.Model):
+class Category(models.Model):
     objects = None
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Director(models.Model):
+   # objects = None
 
     class Meta:
         verbose_name = 'Режиссер'
@@ -18,7 +27,7 @@ class Director(models.Model):
 
 
 class Movie(models.Model):
-    objects = None
+  #  objects = None
 
     class Meta:
         verbose_name='фильм'
@@ -28,21 +37,25 @@ class Movie(models.Model):
     description = models.TextField(max_length=5000,blank=True,verbose_name="Описание фильмы")
     duration=models.DurationField(blank=True,verbose_name="Продолжительность")
 
-    directors = models.ForeignKey(Director, on_delete=models.CASCADE, blank=True, null=True,
+    director= models.ForeignKey(Director, on_delete=models.CASCADE,null=True,
                                   related_name="movies")
+    category = models.ForeignKey(Category,
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 related_name='movies')
 
-    @property
-    def rating(self):
-        total_amount = self.reviews.all().count()
-        if total_amount == 0:
-            return 0
-        sum_ = 0
-        for i in self.reviews.all():
-            sum_ += i.stars
-        return sum_ / total_amount
-
-    def __str__(self):
-        return self.title
+    # @property
+    # def rating(self):
+    #     total_amount = self.reviews.all().count()
+    #     if total_amount == 0:
+    #         return 0
+    #     sum_ = 0
+    #     for i in self.reviews.all():
+    #         sum_ += i.stars
+    #     return sum_ / total_amount
+    #
+    # def __str__(self):
+    #     return self.title
 
 class Review(models.Model):
     class Meta:
@@ -57,5 +70,3 @@ class Review(models.Model):
         return f"{self.author}-{self.movie}"
 
 
-    def __init__(self):
-        return self.stars
