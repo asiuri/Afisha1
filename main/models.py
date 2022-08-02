@@ -52,9 +52,6 @@ class Movie(models.Model):
                                  null=True,
                                  related_name='movies')
 
-
-
-
     @property
     def rating(self):
         total_amount = self.reviews.all().count()
@@ -66,8 +63,6 @@ class Movie(models.Model):
         return sum_ / total_amount
     def __str__(self):
         return self.title
-
-
 
 class Review(models.Model):
     class Meta:

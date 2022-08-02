@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'main',
-    'profile_app',
-    'verify_email.apps.VerifyEmailConfig'
+    'profile_app'
+
 ]
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES':[
