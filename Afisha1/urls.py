@@ -16,14 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main import views
+from profile_app import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/categories/',views.categories_view),
     path('api/v1/directors/',views.directors_list_view),
+    path('api/v1/directors/<int:id>', views.directors_item_view),
     path('api/v1/movies/',views.movie_list_view),
     path('api/v1/movies/<int:id>/',views.movie_item_view),
     path('api/v1/reviews/', views.reviews_view),
+    path('api/v1/reviews/<int:id>/', views.reviews_item_view),
+    path('api/v1/authorization/',user_views.authorization),
+    path('api/v1/registration/', user_views.registration),
+    path('api/v1/verify_email/',user_views.verify_email)
+
 
 
 
