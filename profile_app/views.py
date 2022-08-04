@@ -45,7 +45,3 @@ def verify_email(request):
         'email':user.user.email
     })
 
-
-
-    if form.is_valid():
-        inactive_user = send_verification_email(request, form)
