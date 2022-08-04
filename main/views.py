@@ -17,14 +17,43 @@ from main.serializers import (
 
 
 )
+from rest_framework.generics import (
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.viewsets import ModelViewSet
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@api_view(['GET', 'POST'])
 def categories_view(request):
-    print(request.user)
-    categories = Category.objects.all()
-    data = CategorySerializer(categories, many=True).data
-    return Response(data=data)
+    if request.method == 'GET':
+        categories = Category.objects.all()  # list
+        data = CategorySerializer(categories, many=True).data  # serializer
+        return Response(data=data)
+    elif request.method == 'POST':
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response()
+
+class CategoryListAPIView(ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer  # json / validation
+    pagination_class = PageNumberPagination
+
+
+class CategoryItemUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryAPIViewSet(ModelViewSet):
+    """Category API"""
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    pagination_class = PageNumberPagination
+
 
 
 @api_view(['GET','POST'])
@@ -69,6 +98,13 @@ def directors_item_view(request,id):
         directors.name=author
         directors.save()
         return Response(data=DirectorSerializer(directors).data)
+
+
+class DirectorAPIViewSet(ModelViewSet):
+    """Director API"""
+    queryset = Director.objects.all()
+    serializer_class = DirectorSerializer
+    pagination_class = PageNumberPagination
 
 @api_view(['GET','POST'])
 def movie_list_view(request):
@@ -127,6 +163,12 @@ def movie_item_view(request,id):
         movie.save()
         return Response(data=MovieSerializer(movie).data)
 
+class MovieAPIViewSet(ModelViewSet):
+    """Movie API"""
+    queryset = Movie.objects.all()
+    serializer_class =MovieSerializer
+    pagination_class = PageNumberPagination
+
 @api_view(['GET','POST'])
 def reviews_view(request):
     if request.method=='GET':
@@ -182,6 +224,10 @@ def reviews_item_view(request,id):
         review.save()
         return Response(data=ReviewSerializer(review).data)
 
-
+class ReviewAPIViewSet(ModelViewSet):
+    """Review API"""
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    pagination_class = PageNumberPagination
 
 
