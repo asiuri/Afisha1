@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8082
+    ports:
+    - 8000:8082
